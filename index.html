@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        .Button {
+            margin-left: 40vw;
+            margin-top: 10vh;
+        }
+
+        .Button button {
+            font-size: 3vw;
+        }
+
+        h1 {
+            text-decoration: underline;
+            font-size: 5vw;
+        }
+
+        .alert {
+            font-size: 3.5vw;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class=" alert alert-primary text-center">Motivational Quotes</h1>
+    <div class="Result">
+        <h2 id="result">
+
+        </h2>
+
+    </div>
+    <div class="Button">
+        <button onclick="getQuotes()" class="btn btn-secondary">
+            Get Quotes
+
+        </button>
+
+    </div>
+    <script>
+        var x = 0;
+        function getQuotes() {
+            setInterval(getQuotes, 20000);
+            
+            fetch("https://type.fit/api/quotes")
+                .then(response => response.json())
+                .then(data => {
+                    if (x < 16) {
+                        console.log(data[x].text)
+                        document.getElementById("result").innerHTML = data[x].text;
+                        document.getElementById("result").className = "container alert alert-success text-center";
+                        mySound = new sound("news-ting-6832.mp3");
+                        mySound.play();
+                        x++;
+                    }
+                });
+        }
+        function sound(src) {
+            this.sound = document.createElement("audio");
+            this.sound.src = src;
+            this.sound.setAttribute("preload", "auto");
+            this.sound.setAttribute("controls", "none");
+            this.sound.style.display = "none";
+            document.body.appendChild(this.sound);
+            this.play = function () {
+                this.sound.play();
+            }
+            this.stop = function () {
+                this.sound.pause();
+            }
+        } 
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
